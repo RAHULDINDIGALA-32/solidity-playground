@@ -1,57 +1,47 @@
-# Sample Hardhat 3 Beta Project (`mocha` and `ethers`)
+# 💧 Faucet Smart Contract — Hardhat v3 + Ethers.js + TypeScript
 
-This project showcases a Hardhat 3 Beta project using `mocha` for tests and the `ethers` library for Ethereum interactions.
+A simple **Faucet** smart contract project built using **Hardhat v3**, **Ethers.js v6**, and **TypeScript**, and deployed on the **Sepolia Testnet**.
 
-To learn more about the Hardhat 3 Beta, please visit the [Getting Started guide](https://hardhat.org/docs/getting-started#getting-started-with-hardhat-3). To share your feedback, join our [Hardhat 3 Beta](https://hardhat.org/hardhat3-beta-telegram-group) Telegram group or [open an issue](https://github.com/NomicFoundation/hardhat/issues/new) in our GitHub issue tracker.
+> ✅ **Deployed Address (Sepolia):**  
+> `0xc1e7FD7eA9A428d082FeF7Bf610217e858B917dd`
 
-## Project Overview
+---
 
-This example project includes:
+## 📘 Project Overview
 
-- A simple Hardhat configuration file.
-- Foundry-compatible Solidity unit tests.
-- TypeScript integration tests using `mocha` and ethers.js
-- Examples demonstrating how to connect to different types of networks, including locally simulating OP mainnet.
+This project demonstrates:
+- Setting up a Hardhat v3 environment using **Mocha** and **Ethers.js**
+- Writing and deploying a basic **Faucet contract**
+- Managing environment variables for secure deployment
+- Deploying to **Sepolia Testnet**
+- Using Hardhat v3’s modern configuration system (`configVariable`)
 
-## Usage
+---
 
-### Running Tests
+## 🔐 Environment Variables
 
-To run all the tests in the project, execute the following command:
+Create a .env file in the project root:
+```
+SEPOLIA_RPC_URL=https://eth-sepolia.g.alchemy.com/v2/<YOUR_ALCHEMY_KEY>
+SEPOLIA_PRIVATE_KEY=<YOUR_PRIVATE_KEY_HERE>
 
-```shell
+```
+
+## 🧪 Commands
+
+-  Compile Contracts
+ ```
+npx hardhat compile
+```
+- Run Tests
+
+```
 npx hardhat test
 ```
-
-You can also selectively run the Solidity or `mocha` tests:
-
-```shell
-npx hardhat test solidity
-npx hardhat test mocha
+- Deploy to Sepolia
+```
+npx hardhat run scripts/deploy.ts --network sepolia
 ```
 
-### Make a deployment to Sepolia
 
-This project includes an example Ignition module to deploy the contract. You can deploy this module to a locally simulated chain or to Sepolia.
 
-To run the deployment to a local chain:
-
-```shell
-npx hardhat ignition deploy ignition/modules/Counter.ts
-```
-
-To run the deployment to Sepolia, you need an account with funds to send the transaction. The provided Hardhat configuration includes a Configuration Variable called `SEPOLIA_PRIVATE_KEY`, which you can use to set the private key of the account you want to use.
-
-You can set the `SEPOLIA_PRIVATE_KEY` variable using the `hardhat-keystore` plugin or by setting it as an environment variable.
-
-To set the `SEPOLIA_PRIVATE_KEY` config variable using `hardhat-keystore`:
-
-```shell
-npx hardhat keystore set SEPOLIA_PRIVATE_KEY
-```
-
-After setting the variable, you can run the deployment with the Sepolia network:
-
-```shell
-npx hardhat ignition deploy --network sepolia ignition/modules/Counter.ts
-```
