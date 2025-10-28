@@ -7,12 +7,11 @@ import {FavoriteNumberStorage} from "../src/FavoriteNumberStorage.sol";
 
 contract DeployFavoriteNumberStorage is Script {
     function run() external returns (FavoriteNumberStorage) {
-       vm.startBroadcast();
-       FavoriteNumberStorage favoriteNumberStorage = new FavoriteNumberStorage();
-       vm.stopBroadcast();
-       
-       return favoriteNumberStorage;
-    }
+        vm.startBroadcast();
+        FavoriteNumberStorage favoriteNumberStorage = new FavoriteNumberStorage();
+        vm.stopBroadcast();
 
+        return favoriteNumberStorage;
+    }
 }
 
