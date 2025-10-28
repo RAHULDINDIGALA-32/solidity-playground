@@ -9,7 +9,7 @@ error NotOwner();
 contract FundMe {
 
     using PriceConverter for uint256;
-    // set minimum fund in USD
+    // set minimum fund in USD (10 USD)
     uint public constant MINIMUM_FUND_IN_USD = 10e18;
 
     // track the sender address with respective fund sent
