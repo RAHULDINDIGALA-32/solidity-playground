@@ -82,6 +82,7 @@ contract FundMeTest is Test {
         
         assertEq(endingFundMebalance, 0);
         assertEq(endingOwnerBalance, startingOwnerBalance + startingFundMebalance);
+
     }
 
     function testWithDrawWithMultipleFunders() public {
@@ -90,6 +91,7 @@ contract FundMeTest is Test {
         uint160 startingFunderIndex =1;
 
         for(uint160 i= startingFunderIndex; i<=numberOfFunders; i++){
+            vm.txGasPrice(GAS_PRICE);
             hoax(address(i), SEND_VALUE);
             fundMe.fund{value: SEND_VALUE}();
           }
@@ -98,8 +100,57 @@ contract FundMeTest is Test {
         uint256 startingFundMebalance = address(fundMe).balance;
 
         // Act
+        vm.txGasPrice(GAS_PRICE);
         vm.prank(fundMe.getOwner());
         fundMe.withDrawFunds();
+
+        // Assert
+        assertEq(address(fundMe).balance, 0);
+        assertEq(fundMe.getOwner().balance, startingOwnerBalance + startingFundMebalance);
+    }
+
+    function testCheaperWithdrawWithASingleFunder() public funded {
+        // Arrange
+        uint256 startingOwnerBalance = fundMe.getOwner().balance;
+        uint256 startingFundMebalance = address(fundMe).balance;
+
+        // Act
+        uint256 gasStart = gasleft();
+        vm.txGasPrice(GAS_PRICE);
+        vm.prank(fundMe.getOwner());
+        fundMe.CheaperWithDrawFunds();
+
+        uint256 gasEnd = gasleft();
+        uint256 gasUsed = (gasStart - gasEnd) * tx.gasprice;
+        console.log("Gas Used:", gasUsed);
+
+        // Assert
+        uint256 endingOwnerBalance = fundMe.getOwner().balance;
+        uint256 endingFundMebalance = address(fundMe).balance;
+        
+        assertEq(endingFundMebalance, 0);
+        assertEq(endingOwnerBalance, startingOwnerBalance + startingFundMebalance);
+
+    }
+
+    function testCheaperWithDrawWithMultipleFunders() public {
+       // Arrange
+        uint256 numberOfFunders=10;
+        uint160 startingFunderIndex =1;
+
+        for(uint160 i= startingFunderIndex; i<=numberOfFunders; i++){
+            vm.txGasPrice(GAS_PRICE);
+            hoax(address(i), SEND_VALUE);
+            fundMe.fund{value: SEND_VALUE}();
+          }
+
+        uint256 startingOwnerBalance = fundMe.getOwner().balance;
+        uint256 startingFundMebalance = address(fundMe).balance;
+
+        // Act
+        vm.txGasPrice(GAS_PRICE);
+        vm.prank(fundMe.getOwner());
+        fundMe.CheaperWithDrawFunds();
 
         // Assert
         assertEq(address(fundMe).balance, 0);

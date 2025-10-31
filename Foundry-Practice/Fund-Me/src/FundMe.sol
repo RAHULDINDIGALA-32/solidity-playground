@@ -50,6 +50,23 @@ contract FundMe {
         require(callSuccess, "Funds Transfer failed!!");
     }
 
+     
+    function CheaperWithDrawFunds() public onlyOwner { // gas optimized withdraw function
+      // require(msg.sender == i_owner, "Only owner can withdraw funds!!");
+      uint fundersLen = s_funders.length;
+
+       for(uint256 i=0; i < fundersLen; i++){
+        address funder = s_funders[i];
+        s_addressToAmountFunded[funder] =0;
+       }
+
+       s_funders = new address[](0);
+
+       (bool callSuccess, ) = payable(msg.sender).call{value: address(this).balance}("");
+        
+        require(callSuccess, "Funds Transfer failed!!");
+    }
+
     modifier onlyOwner() {
      //  require(msg.sender == i_owner, "Only Owner can withdraw funds!!");
      if(msg.sender != i_owner) {revert FundMe__NotOwner(); }
