@@ -9,15 +9,39 @@ pragma solidity ^0.8.20;
  */
 
 contract Raffle {
-    uint256 private immutable i_entranceFee;
+    /* Custom Errors */
+    error Raffle__SendMoreEthToEnterRaffle();
 
-    constructor(uint256 _entranceFee) {
+    uint256 private immutable i_entranceFee;
+    /* @dev The duration of the lottery in seconds */
+    uint256 private immutable i_interval;
+    address payable[] private s_players;
+    uint256 private s_lastTimeStamp;
+
+    /** Events */
+    event RaffleEntered(address indexed player);
+
+    constructor(uint256 _entranceFee, uint256 _interval) {
         i_entranceFee = _entranceFee;
+        i_interval = _interval;
+        s_lastTimeStamp = block.timestamp;
     }
 
-    function enterRaffle() public payable {}
+    function enterRaffle() external payable {
+        // require(msg.value >= i_entranceFee, NotEnoughEth())
+        if (msg.value < i_entranceFee) {
+            revert Raffle__SendMoreEthToEnterRaffle();
+        }
+        s_players.push(payable(msg.sender));
+        emit RaffleEntered(msg.sender);
+    }
 
-    function pickWinner() public {}
+    function pickWinner() external {
+        // check to see if enough time has passed
+        if ((block.timestamp - s_lastTimeStamp) < i_interval) {
+            revert();
+        }
+    }
 
     /** Getter Functions */
     function getEntranceFee() public view returns (uint256) {
