@@ -35,6 +35,7 @@ docs/
 **/out/
 **/cache/
 **/lib/
+/Foundry-Practice/*/lib/
 
 # hardhat files
 HardHat-Practice/**/artifacts/
