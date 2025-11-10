@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
+
 import {VRFConsumerBaseV2Plus} from "@chainlink/contracts/src/v0.8/vrf/dev/VRFConsumerBaseV2Plus.sol";
 import {VRFV2PlusClient} from "@chainlink/contracts/src/v0.8/vrf/dev/libraries/VRFV2PlusClient.sol";
 
@@ -11,6 +12,15 @@ import {VRFV2PlusClient} from "@chainlink/contracts/src/v0.8/vrf/dev/libraries/V
  */
 
 contract Raffle is VRFConsumerBaseV2Plus {
+
+    /* Type Declarations */
+    enum RaffleState {
+        OPEN,    
+        CALCULATING
+    }
+    
+
+    /* State Variables */
     uint16 private constant REQUEST_CONFIRMATIONS = 3;
     uint32 private constant NUM_WORDS = 1;
     bool private constant ENABLE_NATIVE_PAYMENT = false;
@@ -22,12 +32,17 @@ contract Raffle is VRFConsumerBaseV2Plus {
     uint64 private immutable i_subscriptionId;
     uint32 private immutable i_callbackGasLimit;
     uint256 private s_lastTimeStamp;
+    address private s_recentWinner;
+    RaffleState private s_raffleState;
 
     /* Events */
-    event RaffleEntered(address indexed player);
+    event RaffleEntered(address indexed player);\
+    event WinnerPicked(address indexed winner);
 
     /* Custom Errors */
     error Raffle__SendMoreEthToEnterRaffle();
+    error Raffle__TransferFailed();
+    error Raffle__RaffleNotOpen();
 
     /* Functions */
     constructor(
@@ -44,9 +59,15 @@ contract Raffle is VRFConsumerBaseV2Plus {
         i_keyHash = gasLane;
         i_subscriptionId = subscriptionId;
         i_callbackGasLimit = callbackGasLimit;
+        s_raffleState = RaffleState.OPEN;
     }
 
     function enterRaffle() external payable {
+
+        if(s_raffleState != RaffleState.OPEN){
+            revert Raffle__RaffleNotOpen();
+        }
+
         // require(msg.value >= i_entranceFee, NotEnoughEth())
         if (msg.value < i_entranceFee) {
             revert Raffle__SendMoreEthToEnterRaffle();
@@ -60,6 +81,8 @@ contract Raffle is VRFConsumerBaseV2Plus {
         if ((block.timestamp - s_lastTimeStamp) < i_interval) {
             revert();
         }
+
+        s_raffleState = RaffleState.CALCULATING;
 
         VRFV2PlusClient.RandomWordsRequest request = VRFV2PlusClient
             .RandomWordsRequest({
@@ -76,6 +99,33 @@ contract Raffle is VRFConsumerBaseV2Plus {
             });
 
         uint256 requestId = s_vrfCoordinator.requestRandomWords(request);
+
+    }
+   
+   // CEI: Checks, Effects, Interactions patterns (FREI-PI)
+    function fullfillRandomWords( uint256 requestId, uint256[] memory randomwords) internal override {
+        //  checks
+          // conditionals
+
+        // Effects (Internal Contract State)
+        uint256 winnerIndex = randomwords[0] % s_players.length;
+        address payable recentWinner = s_players[winnerIndex];
+        s_recentWinner = recentWinner;
+        s_raffleState = RaffleState.OPEN;
+        // reset the lottery
+        s_players = new address payable[](0);
+        s_lastTimeStamp = block.timestamp;
+        emit WinnerPicked(recentWinner);
+
+        // Interactions (External Contract Interactions)
+        // send the money to the winner
+        (bool success, ) = recentWinner.call{value: address(this).balance}("");
+        if(!success){
+            revert Raffle__TransferFailed();
+        }
+        
+      
+
     }
 
     /** Getter Functions */
