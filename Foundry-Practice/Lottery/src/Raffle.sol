@@ -162,13 +162,13 @@ contract Raffle is VRFConsumerBaseV2Plus {
     // CEI: Checks, Effects, Interactions patterns (FREI-PI)
     function fulfillRandomWords(
         uint256 /* requestId */,
-        uint256[] calldata randomwords
+        uint256[] calldata randomWords
     ) internal override {
         //  checks
         // conditionals
 
         // Effects (Internal Contract State)
-        uint256 winnerIndex = randomwords[0] % s_players.length;
+        uint256 winnerIndex = randomWords[0] % s_players.length;
         address payable recentWinner = s_players[winnerIndex];
         s_recentWinner = recentWinner;
         s_raffleState = RaffleState.OPEN;
@@ -188,5 +188,13 @@ contract Raffle is VRFConsumerBaseV2Plus {
     /** Getter Functions */
     function getEntranceFee() public view returns (uint256) {
         return i_entranceFee;
+    }
+
+    function getRaffleState() public view returns (RaffleState) {
+        return s_raffleState;
+    }
+
+    function getPlayer(uint256 _index) public view returns (address) {
+        return s_players[_index];
     }
 }
