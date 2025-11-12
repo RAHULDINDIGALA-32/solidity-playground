@@ -7,3 +7,6 @@
 [submodule "Foundry-Practice/Lottery/lib/solmate"]
 	path = Foundry-Practice/Lottery/lib/solmate
 	url = https://github.com/transmissions11/solmate
+[submodule "Foundry-Practice/Lottery/lib/foundry-devops"]
+	path = Foundry-Practice/Lottery/lib/foundry-devops
+	url = https://github.com/Cyfrin/foundry-devops

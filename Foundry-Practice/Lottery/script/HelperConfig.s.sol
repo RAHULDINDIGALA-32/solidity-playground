@@ -11,7 +11,7 @@ abstract contract ContractConstants {
     uint96 public MOCK_GAS_PRICE_LINK = 1e9;
     int256 public MOCK_WEI_PER_UNIT_LINK = 4e15;
 
-    uint256 public constant ETH_SEPOLIA_CHAIN_ID = 1115511;
+    uint256 public constant ETH_SEPOLIA_CHAIN_ID = 11155111;
     uint256 public constant LOCAL_CHAIN_ID = 31337;
 }
 
@@ -22,7 +22,7 @@ contract HelperConfig is Script, ContractConstants {
         address vrfCoordinator;
         bytes32 gasLane;
         uint32 callbackGasLimit;
-        uint64 subscriptionId;
+        uint256 subscriptionId;
         address link;
     }
 
@@ -32,7 +32,7 @@ contract HelperConfig is Script, ContractConstants {
     error HelperConfig__NotValidChainId();
 
     constructor() {
-        networkConfigs[1115511] = getSepoliaEthConfig();
+        networkConfigs[11155111] = getSepoliaEthConfig();
     }
 
     function getConfigByChainId(
@@ -91,7 +91,7 @@ contract HelperConfig is Script, ContractConstants {
                 callbackGasLimit: 500000,
                 subscriptionId: 0,
                 // need to create our own token
-                link: address(linkToken);
+                link: address(linkToken)
             });
     }
 }
