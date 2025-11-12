@@ -4,11 +4,11 @@ pragma solidity ^0.8.20;
 import {Test} from "forge-std/Test.sol";
 import {Raffle} from "../../src/Raffle.sol";
 import {DeployRaffle} from "../../script/DeployRaffle.s.sol";
-import {HelperConfig} from "../../script/HelperConfig.s.sol";
+import {HelperConfig, ContractConstants} from "../../script/HelperConfig.s.sol";
 import {VRFCoordinatorV2_5Mock} from "@chainlink/contracts/src/v0.8/vrf/mocks/VRFCoordinatorV2_5Mock.sol";
 import {Vm} from "forge-std/Vm.sol";
 
-contract RaffleTest is Test {
+contract RaffleTest is Test, ContractConstants {
     Raffle public raffle;
     HelperConfig public helperConfig;
 
@@ -39,6 +39,13 @@ contract RaffleTest is Test {
     modifier raffleEntered() {
         vm.prank(PLAYER);
         raffle.enterRaffle{value: entranceFee}();
+        _;
+    }
+
+    modifier skipFork() {
+        if (block.chainid != LOCAL_CHAIN_ID) {
+            return;
+        }
         _;
     }
 
@@ -182,7 +189,7 @@ contract RaffleTest is Test {
 
     function testFulfillRandomWordsCanOnlyBecalledAfterPerformUpkeep(
         uint256 randomRequestId
-    ) public raffleEntered {
+    ) public raffleEntered skipFork {
         // Fuzzing randomRequestId, runs default to 256
         // Arrange
         vm.warp(block.timestamp + interval + 1);
@@ -198,6 +205,7 @@ contract RaffleTest is Test {
     function testFullfillRandomWordsPicksAWinnerResetsAndSendsMoney()
         public
         raffleEntered
+        skipFork
     {
         // Arrange
         uint256 additionalEntrants = 3;
