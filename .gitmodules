@@ -10,3 +10,6 @@
 [submodule "Foundry-Practice/Lottery/lib/foundry-devops"]
 	path = Foundry-Practice/Lottery/lib/foundry-devops
 	url = https://github.com/Cyfrin/foundry-devops
+[submodule "Foundry-Practice/ERC20/lib/openzeppelin-contracts"]
+	path = Foundry-Practice/ERC20/lib/openzeppelin-contracts
+	url = https://github.com/openzeppelin/openzeppelin-contracts

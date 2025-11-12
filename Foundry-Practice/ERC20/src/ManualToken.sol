@@ -7,7 +7,7 @@ contract ManualToken {
     uint8 private constant DECIMALS = 8;
     uint256 private s_totalSupply = 100 ether;
 
-    mapping (address => uint256) private s_balances;
+    mapping(address => uint256) private s_balances;
 
     /* Events */
     event Transfer(address from, address to, uint256 amount);
@@ -28,20 +28,24 @@ contract ManualToken {
     // }
 
     function balanceOf(address _owner) public view returns (uint256) {
-        returns (s_balances[_owner]);
+        return (s_balances[_owner]);
     }
 
     function transfer(address _to, uint256 _amount) public {
-        if(_amount > s_balances[msg.sender]){
-            revert ManualToken__NotEnoughBalance(msg.sender, s_balances[msg.sender]);
+        if (_amount > s_balances[msg.sender]) {
+            revert ManualToken__NotEnoughBalance(
+                msg.sender,
+                s_balances[msg.sender]
+            );
         }
 
-        uint256 balancesSumBeforeTransfer = s_balances[msg.sender] + s_balances[_to];
+        uint256 balancesSumBeforeTransfer = s_balances[msg.sender] +
+            s_balances[_to];
         s_balances[msg.sender] -= _amount;
         s_balances[_to] += _amount;
-        require(balanceOf(msg.sender) + balanceOf(_to) == balancesSumBeforeTransfer);
+        require(
+            balanceOf(msg.sender) + balanceOf(_to) == balancesSumBeforeTransfer
+        );
         emit Transfer(msg.sender, _to, _amount);
     }
-
-    
 }
