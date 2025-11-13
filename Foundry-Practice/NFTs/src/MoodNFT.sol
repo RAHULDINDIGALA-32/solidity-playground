@@ -21,6 +21,9 @@ contract MoodNFT is ERC721 {
     string private happySvgImageUri;
     mapping(uint256 => Mood) private tokenIdToMood;
 
+    /* Errors */
+    error NotAuthorizedToFlipMood();
+
     constructor(
         string memory _sadSvgImageUri,
         string memory _happySvgImageUri
@@ -58,6 +61,19 @@ contract MoodNFT is ERC721 {
         );
 
         return string(abi.encodePacked(_baseURI(), tokenMetadata));
+    }
+
+    function flipMood(uint256 tokenId) public {
+        // only owner can flip the mood
+        if (!_isAuthorized(msg.sender, msg.sender, tokenId)) {
+            revert NotAuthorizedToFlipMood();
+        }
+
+        if (tokenIdToMood[tokenId] == Mood.HAPPY) {
+            tokenIdToMood[tokenId] = Mood.SAD;
+        } else {
+            tokenIdToMood[tokenId] = Mood.HAPPY;
+        }
     }
 
     function _baseURI() internal pure override returns (string memory) {
