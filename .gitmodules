@@ -19,3 +19,6 @@
 [submodule "Foundry-Practice/NFTs/lib/foundry-devops"]
 	path = Foundry-Practice/NFTs/lib/foundry-devops
 	url = https://github.com/cyfrin/foundry-devops
+[submodule "Foundry-Practice/Merkle-Airdrop/lib/murky"]
+	path = Foundry-Practice/Merkle-Airdrop/lib/murky
+	url = https://github.com/dmfxyz/murky
