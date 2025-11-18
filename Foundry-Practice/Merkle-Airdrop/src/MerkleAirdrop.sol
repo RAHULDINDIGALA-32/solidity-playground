@@ -9,6 +9,7 @@ import {ECDSA} from "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
 contract MerkleAirdrop is EIP712 {
     /* type declarations */
     using SafeERC20 for IERC20;
+
     struct AirdropClaim {
         address account;
         uint256 amount;
@@ -19,7 +20,7 @@ contract MerkleAirdrop is EIP712 {
     IERC20 private immutable _AIRDROP_TOKEN;
     mapping(address claimer => bool claimed) private _hasClaimed;
 
-    bytes32 priavte constant MESSAGE_TYPEHASH = keccak256("AirdropClaim(address account, uint256 amount)");
+    bytes32 private constant MESSAGE_TYPEHASH = keccak256("AirdropClaim(address account, uint256 amount)");
 
     /* Events */
     event Claim(address user, uint256 amount);
@@ -42,7 +43,7 @@ contract MerkleAirdrop is EIP712 {
         if (_hasClaimed[account]) {
             revert MerkleAirdrop_AlreadyClaimed();
         }
-        if (_isValidSignature(account, getMessage(account, amount), v, r, s)) {
+        if (!_isValidSignature(account, getMessageHash(account, amount), v, r, s)) {
             revert MerkleAirdrop__InvalidSignature();
         }
 
@@ -66,15 +67,18 @@ contract MerkleAirdrop is EIP712 {
     }
 
     /* Public Functions */
-    function getMessage(address account, uint256 amount) public view returns (bytes32) {
-        return _hashTypedDataV4(
-            keccak256(abi.encode(MESSAGE_TYPEHASH, AirdropClaim({account: account, amount: amount})))
-            );
+    function getMessageHash(address account, uint256 amount) public view returns (bytes32) {
+        return
+            _hashTypedDataV4(keccak256(abi.encode(MESSAGE_TYPEHASH, AirdropClaim({account: account, amount: amount}))));
     }
 
     /* Internal Functions */
-    function _isValidSignature(address account, bytes32 digest, uint8 v, bytes32 r, bytes32 s) internal pure returns (bool) {
-        (address actualSigner, , ) = ECDSA.tryRecover(digest, v, r, s);
+    function _isValidSignature(address account, bytes32 digest, uint8 v, bytes32 r, bytes32 s)
+        internal
+        pure
+        returns (bool)
+    {
+        (address actualSigner,,) = ECDSA.tryRecover(digest, v, r, s);
         return actualSigner == account;
     }
 }

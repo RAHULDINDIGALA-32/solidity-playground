@@ -20,7 +20,9 @@ contract MerkleAirdropTest is ZkSyncChainChecker, Test {
     uint256 public constant AMOUNT_TO_MINT = 5 * AMOUNT_TO_CLAIM;
     address validUser;
     uint256 validUserPrivateKey;
-    address randomUser = makeAddr("random-user");
+    address randomUser;
+    uint256 randomUserPrivateKey;
+    address gasPayer;
 
     function setUp() public {
         if (!isZkSyncChain()) {
@@ -34,21 +36,27 @@ contract MerkleAirdropTest is ZkSyncChainChecker, Test {
         }
 
         (validUser, validUserPrivateKey) = makeAddrAndKey("user");
+        (randomUser, randomUserPrivateKey) = makeAddrAndKey("random-user");
+        gasPayer = makeAddr("gasPayer");
     }
 
     function testValidUsersCanClaim() public {
         uint256 startingBalance = token.balanceOf(validUser);
+        bytes32 digest = airdrop.getMessageHash(validUser, AMOUNT_TO_CLAIM);
+        (uint8 v, bytes32 r, bytes32 s) = vm.sign(validUserPrivateKey, digest);
 
-        vm.prank(validUser);
-        airdrop.claim(validUser, AMOUNT_TO_CLAIM, proof);
+        vm.prank(gasPayer);
+        airdrop.claim(validUser, AMOUNT_TO_CLAIM, proof, v, r, s);
 
         console.log("Claimed token amount: ", token.balanceOf(validUser) - startingBalance);
     }
 
     function testRevertOnInvalidUserClaim() public {
+        bytes32 digest = airdrop.getMessageHash(randomUser, AMOUNT_TO_CLAIM);
+        (uint8 v, bytes32 r, bytes32 s) = vm.sign(randomUserPrivateKey, digest);
         vm.expectRevert(MerkleAirdrop.MerkleAirdrop__InvalidProof.selector);
         vm.prank(randomUser);
-        airdrop.claim(randomUser, AMOUNT_TO_CLAIM, proof);
+        airdrop.claim(randomUser, AMOUNT_TO_CLAIM, proof, v, r, s);
     }
 }
 
