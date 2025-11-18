@@ -22,3 +22,6 @@
 [submodule "Foundry-Practice/Merkle-Airdrop/lib/murky"]
 	path = Foundry-Practice/Merkle-Airdrop/lib/murky
 	url = https://github.com/dmfxyz/murky
+[submodule "Foundry-Practice/Merkle-Airdrop/lib/foundry-devops"]
+	path = Foundry-Practice/Merkle-Airdrop/lib/foundry-devops
+	url = https://github.com/cyfrin/foundry-devops
