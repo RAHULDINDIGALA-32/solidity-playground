@@ -28,3 +28,9 @@
 [submodule "Foundry-Practice/Contract-Upgrades/lib/openzeppelin-contracts-upgradeable"]
 	path = Foundry-Practice/Contract-Upgrades/lib/openzeppelin-contracts-upgradeable
 	url = https://github.com/openzeppelin/openzeppelin-contracts-upgradeable
+[submodule "Foundry-Practice/Contract-Upgrades/lib/openzeppelin-contracts"]
+	path = Foundry-Practice/Contract-Upgrades/lib/openzeppelin-contracts
+	url = https://github.com/openzeppelin/openzeppelin-contracts
+[submodule "Foundry-Practice/Contract-Upgrades/lib/foundry-devops"]
+	path = Foundry-Practice/Contract-Upgrades/lib/foundry-devops
+	url = https://github.com/cyfrin/foundry-devops

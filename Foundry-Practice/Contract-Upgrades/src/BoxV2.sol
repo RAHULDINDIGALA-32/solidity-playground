@@ -8,7 +8,7 @@ import {UUPSUpgradeable} from "@openzeppelin/contracts-upgradeable/proxy/utils/U
 contract BoxV2 is UUPSUpgradeable {
     uint256 internal number;
 
-    /// @custom: oz-upgrades-unsafe-allow constructor
+    // @custom: oz-upgrades-unsafe-allow constructor
     // constructor() {
     //     _disableInitializers();
     // }
@@ -18,7 +18,7 @@ contract BoxV2 is UUPSUpgradeable {
     //     __UUPSUpgra
     // }
 
-    function setNumber(uint256 _number) {}
+    function setNumber(uint256 _number) external {}
 
     function getNumber() external view returns (uint256) {
         return number;
