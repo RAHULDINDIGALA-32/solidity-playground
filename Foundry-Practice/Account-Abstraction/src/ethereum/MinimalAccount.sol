@@ -9,7 +9,7 @@ import {ECDSA} from "@openzeppelin/contracts/utils/cryptography/ECDSA.sol";
 import {SIG_VALIDATION_FAILED, SIG_VALIDATION_SUCCESS} from "lib/account-abstraction/contracts/core/Helpers.sol";
 import {IEntryPoint} from "lib/account-abstraction/contracts/interfaces/IEntryPoint.sol";
 
-contract MinimalAccount is IAccount.Ownable {
+contract MinimalAccount is IAccount, Ownable {
     /* State Variables */
     IEntryPoint private immutable _ENTRY_POINT;
 
@@ -27,7 +27,7 @@ contract MinimalAccount is IAccount.Ownable {
     }
 
     modifier requireFromEntryPointOrOwner() {
-        if (msg.sender != address(_ENTRY_POINT) && msg.sender != owner) {
+        if (msg.sender != address(_ENTRY_POINT) && msg.sender != owner()) {
             revert MinimalAccount__NotFromEntryPointOrOwner();
         }
         _;
@@ -86,9 +86,9 @@ contract MinimalAccount is IAccount.Ownable {
         returns (uint256 validationData)
     {
         bytes32 ethSignedMessageHash = MessageHashUtils.toEthSignedMessageHash(userOpHash);
-        address signer = ECDS.recover(ethSignedMessageHash, userOp.signature);
+        address signer = ECDSA.recover(ethSignedMessageHash, userOp.signature);
 
-        if (signer != owner) return SIG_VALIDATION_FAILED;
+        if (signer != owner()) return SIG_VALIDATION_FAILED;
         return SIG_VALIDATION_SUCCESS;
     }
 }
