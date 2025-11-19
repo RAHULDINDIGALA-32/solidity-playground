@@ -38,3 +38,6 @@
 [submodule "Foundry-Practice/Account-Abstraction/lib/account-abstraction"]
 	path = Foundry-Practice/Account-Abstraction/lib/account-abstraction
 	url = https://github.com/eth-infinitism/account-abstraction
+[submodule "Foundry-Practice/Account-Abstraction/lib/foundry-era-contracts"]
+	path = Foundry-Practice/Account-Abstraction/lib/foundry-era-contracts
+	url = https://github.com/Cyfrin/foundry-era-contracts
