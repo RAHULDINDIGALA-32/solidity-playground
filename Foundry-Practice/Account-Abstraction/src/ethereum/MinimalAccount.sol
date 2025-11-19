@@ -70,7 +70,7 @@ contract MinimalAccount is IAccount, Ownable {
     /* Internal FUnctions */
     function _payPreFund(uint256 missingAccountFunds) internal {
         if (missingAccountFunds != 0) {
-            (bool success,) = payable(msg.sender).call{value: missingAccountFunds, gas: type(uint256).max}("");
+            (bool success,) = (msg.sender).call{value: missingAccountFunds, gas: type(uint256).max}("");
             require(success);
         }
     }
