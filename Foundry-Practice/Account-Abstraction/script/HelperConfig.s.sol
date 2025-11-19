@@ -3,7 +3,7 @@ pragma solidity ^0.8.25;
 
 import {Script} from "forge-std/Script.sol";
 
-contract HelperCofig is Script {
+contract HelperConfig is Script {
     struct NetworkConfig {
         address entryPoint;
         address account;
@@ -13,11 +13,12 @@ contract HelperCofig is Script {
     uint256 private constant ZKSYNC_SEPOLIA_CHAIN_ID = 300;
     uint256 private constant LOCAL_CHAIN_ID = 31337;
     address private constant BURNER_WALLET = 0xdCEdc71016Ba1FEC72A6c07fBd3391A290032538;
+    address private constant FOUNDRY_DEFAULT_WALLET = 0x1804c8AB1F12E6bbf3894d4083f33e07309d1f38;
 
     NetworkConfig public localNetworkConfig;
     mapping(uint256 chainId => NetworkConfig) public networkConfigs;
 
-    error HelperCofig__InvalidChainId();
+    error HelperConfig__InvalidChainId();
 
     constructor() {
         networkConfigs[ETH_SEPOLIA_CHAIN_ID] = getSepoliaEthConfig();
@@ -33,7 +34,7 @@ contract HelperCofig is Script {
         } else if (networkConfigs[chainId].account != address(0)) {
             return networkConfigs[chainId];
         } else {
-            revert HelperCofig__InvalidChainId();
+            revert HelperConfig__InvalidChainId();
         }
     }
 
@@ -51,5 +52,6 @@ contract HelperCofig is Script {
         }
 
         // else deploy a mock entry point contract
+        return NetworkConfig({entryPoint: address(0), account: FOUNDRY_DEFAULT_WALLET});
     }
 }
