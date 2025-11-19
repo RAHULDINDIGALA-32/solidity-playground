@@ -34,3 +34,9 @@
 [submodule "Foundry-Practice/Contract-Upgrades/lib/foundry-devops"]
 	path = Foundry-Practice/Contract-Upgrades/lib/foundry-devops
 	url = https://github.com/cyfrin/foundry-devops
+[submodule "lib/account-abstraction"]
+	path = lib/account-abstraction
+	url = https://github.com/eth-infinitism/account-abstraction
+[submodule "Foundry-Practice/Account-Abstraction/lib/account-abstraction"]
+	path = Foundry-Practice/Account-Abstraction/lib/account-abstraction
+	url = https://github.com/eth-infinitism/account-abstraction
