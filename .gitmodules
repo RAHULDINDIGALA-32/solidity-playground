@@ -41,3 +41,6 @@
 [submodule "Foundry-Practice/Account-Abstraction/lib/foundry-era-contracts"]
 	path = Foundry-Practice/Account-Abstraction/lib/foundry-era-contracts
 	url = https://github.com/Cyfrin/foundry-era-contracts
+[submodule "Foundry-Practice/DAO/lib/openzeppelin-contracts"]
+	path = Foundry-Practice/DAO/lib/openzeppelin-contracts
+	url = https://github.com/openzeppelin/openzeppelin-contracts
