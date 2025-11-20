@@ -8,12 +8,14 @@ contract Box is Ownable {
 
     event NumberChanged(uint256 number);
 
+    constructor() Ownable(msg.sender) {}
+
     function store(uint256 newNumber) public onlyOwner {
         _number = newNumber;
         emit NumberChanged(_number);
     }
 
-    function getNumber() external view returns (uitn256) {
+    function getNumber() external view returns (uint256) {
         return _number;
     }
 }
