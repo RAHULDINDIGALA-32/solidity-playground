@@ -44,3 +44,12 @@
 [submodule "Foundry-Practice/DAO/lib/openzeppelin-contracts"]
 	path = Foundry-Practice/DAO/lib/openzeppelin-contracts
 	url = https://github.com/openzeppelin/openzeppelin-contracts
+[submodule "Foundry-Practice/UniSwapv2/lib/forge-std"]
+	path = Foundry-Practice/UniSwapv2/lib/forge-std
+	url = https://github.com/foundry-rs/forge-std
+[submodule "Foundry-Practice/UniSwapv2/lib/v2-core"]
+	path = Foundry-Practice/UniSwapv2/lib/v2-core
+	url = https://github.com/Uniswap/v2-core
+[submodule "Foundry-Practice/UniSwapv2/lib/v2-periphery"]
+	path = Foundry-Practice/UniSwapv2/lib/v2-periphery
+	url = https://github.com/Uniswap/v2-periphery
