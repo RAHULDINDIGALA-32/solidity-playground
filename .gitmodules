@@ -53,3 +53,9 @@
 [submodule "Foundry-Practice/UniSwapv2/lib/v2-periphery"]
 	path = Foundry-Practice/UniSwapv2/lib/v2-periphery
 	url = https://github.com/Uniswap/v2-periphery
+[submodule "Foundry-Practice/UniSwapV3/lib/v3-periphery"]
+	path = Foundry-Practice/UniSwapV3/lib/v3-periphery
+	url = https://github.com/Uniswap/v3-periphery
+[submodule "Foundry-Practice/UniSwapV3/lib/v3-core"]
+	path = Foundry-Practice/UniSwapV3/lib/v3-core
+	url = https://github.com/Uniswap/v3-core
