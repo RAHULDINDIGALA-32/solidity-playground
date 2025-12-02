@@ -59,3 +59,9 @@
 [submodule "Foundry-Practice/UniSwapV3/lib/v3-core"]
 	path = Foundry-Practice/UniSwapV3/lib/v3-core
 	url = https://github.com/Uniswap/v3-core
+[submodule "Foundry-Practice/UniSwapV3/lib/swap-router-contracts"]
+	path = Foundry-Practice/UniSwapV3/lib/swap-router-contracts
+	url = https://github.com/Uniswap/swap-router-contracts
+[submodule "Foundry-Practice/UniSwapV3/lib/openzeppelin-contracts"]
+	path = Foundry-Practice/UniSwapV3/lib/openzeppelin-contracts
+	url = https://github.com/openzeppelin/openzeppelin-contracts
