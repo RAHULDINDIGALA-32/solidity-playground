@@ -21,6 +21,7 @@ const {abi: smileAbi, bytecode: smileBytecode} = smileJson;
     const txnHash = await client.deployContract({
         abi: smileAbi,
         bytecode: smileBytecode as Hex,
+        args: []
     });
 
     console.log("Contract Deployment Txn Hash: ", txnHash);
@@ -33,7 +34,7 @@ const {abi: smileAbi, bytecode: smileBytecode} = smileJson;
     console.log("Contract Deployed At Address: ", contractAddress);
 
     if(contractAddress) {
-        const contract = getContract({
+        const contract = await getContract({
             address: contractAddress,
             abi: smileAbi,
             client: {
