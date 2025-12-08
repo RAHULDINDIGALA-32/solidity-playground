@@ -42,4 +42,8 @@ docs/
 HardHat-Practice/**/artifacts/
 HardHat-Practice/**/cache/
 
+# node modules
+node_modules/
+**/node_modules/
+
 
