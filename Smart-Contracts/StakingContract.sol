@@ -29,6 +29,9 @@ contract StakingContract is ReentrancyGuard {
 
     mapping(address user => UserInfo) public users;
 
+    // ===== EVENTS =====
+    
+
     // ===== ERRORS =====
     error StakingContract__ZeroAmount();
     error StakingContract__AmountMustBeGreaterThanZero();
