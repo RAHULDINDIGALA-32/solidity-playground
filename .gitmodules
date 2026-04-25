@@ -65,3 +65,6 @@
 [submodule "Foundry-Practice/UniSwapV3/lib/openzeppelin-contracts"]
 	path = Foundry-Practice/UniSwapV3/lib/openzeppelin-contracts
 	url = https://github.com/openzeppelin/openzeppelin-contracts
+[submodule "Foundry-Practice/RWA-Tokenization/lib/chainlink-brownie-contracts"]
+	path = Foundry-Practice/RWA-Tokenization/lib/chainlink-brownie-contracts
+	url = https://github.com/smartcontractkit/chainlink-brownie-contracts
