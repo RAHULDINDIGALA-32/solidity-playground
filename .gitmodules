@@ -68,3 +68,9 @@
 [submodule "Foundry-Practice/RWA-Tokenization/lib/chainlink-brownie-contracts"]
 	path = Foundry-Practice/RWA-Tokenization/lib/chainlink-brownie-contracts
 	url = https://github.com/smartcontractkit/chainlink-brownie-contracts
+[submodule "Foundry-Practice/Smart-Accounts/lib/account-abstraction"]
+	path = Foundry-Practice/Smart-Accounts/lib/account-abstraction
+	url = https://github.com/eth-infinitism/account-abstraction
+[submodule "Foundry-Practice/Smart-Accounts/lib/openzeppelin-contracts"]
+	path = Foundry-Practice/Smart-Accounts/lib/openzeppelin-contracts
+	url = https://github.com/OpenZeppelin/openzeppelin-contracts
